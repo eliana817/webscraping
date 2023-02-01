@@ -25,20 +25,21 @@ def ecoProcess(soup):
         
         try:
             newUrl = baseUrl + a['href']
+            response2 = requests.get(newUrl)
+            soup2 = BeautifulSoup(response2.text,'html.parser')
+            time = soup2.find('time', {"class": "css-j5ehde e1fl1tsy0"})
+            date = time.contents[2]
             try:
                 p = d.find('p').get_text().strip()
-                print(articleTitle, " - ", newUrl, " - ", p)  
+                print(articleTitle, " - ", newUrl, " - ", p, " - ", date)  
                 print()
             except:
-                print(articleTitle, " - ", newUrl)
+                print(articleTitle, " - ", newUrl, " - ", date)
                 print()
         except:
             pass
          
         
-        
-
-
 
 if response1.ok :
     soup = BeautifulSoup(response1.text,'html.parser')
