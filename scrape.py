@@ -56,7 +56,8 @@ if response1.ok :
         a = t.findAll('a')
         for a in a:
             uri = a['href']
-        response2 = requests.get(baseUrl + uri)
-        soup2 = BeautifulSoup(response2.text,'html.parser')
-        ecoProcess(soup2)
+            response2 = requests.get(baseUrl + uri)
+            if response2.ok :
+                soup2 = BeautifulSoup(response2.text,'html.parser')
+                ecoProcess(soup2)
 
