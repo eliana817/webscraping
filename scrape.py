@@ -1,14 +1,23 @@
 import requests
 from bs4 import BeautifulSoup
+import csv
 
 baseUrl =  "https://www.economist.com"
 
 response1 = requests.get(baseUrl)
 
+allLinks = {}
+allP = {}
+allDates = {}
+allTitles = {}
 
 #Scrape the data (title, link and small description of the articles from the economist concerning the US midterm politics)
 
-def ecoProcess(soup, content):
+def ecoProcess(soup, content, allLinks, allP, allDates, allTitles):
+    allLinks[content] = []
+    allP[content] = []
+    allDates[content] = []
+    allTitles[content] = []
     div = soup.findAll('div', {"class": ["css-1a74g8a e16rqvvr0", "css-1xnjxgi e16rqvvr0", "css-mi70rv e16rqvvr0"]})
     #print(len(div))
     for d in div:
@@ -32,13 +41,22 @@ def ecoProcess(soup, content):
                     p = ecoP(currentDiv)
                     print(articleTitle, " - ", newUrl, " - ", p, " - ", date)  
                     print()
+                    allLinks[content].append(newUrl)
+                    allP[content].append(p)
+                    allDates[content].append(date)
+                    allTitles[content].append(articleTitle)
                 except:
                     print(articleTitle, " - ", newUrl, " - ", date)
                     print()
+                    allLinks[content].append(newUrl)
+                    allP[content].append(None)
+                    allDates[content].append(date)
+                    allTitles[content].append(articleTitle)
             except:
                 pass
         except:
             pass
+    return allLinks, allP, allDates, allTitles
 
 
 def ecoDate(url):     
@@ -63,7 +81,7 @@ def ecoLinks(soup):
             links.append(uri)
             span = a.find('span')
             linkContent.append(span.contents[0])
-    return links, linkContent
+    return links, linkContent #links of the navbar
             
 
 if response1.ok :
@@ -77,5 +95,36 @@ if response1.ok :
         response2 = requests.get(baseUrl + link)
         if response2.ok :
             soup2 = BeautifulSoup(response2.text,'html.parser')
-            ecoProcess(soup2, content)
+            allLinks, allP, allDates, allTitles = ecoProcess(soup2, content, allLinks, allP, allDates, allTitles)
+            
+
+rows = []
+h = 0
+for c in linkContent:
+    i = 0
+    for k in range (len(allLinks[c])):
+        row = {}
+        row['id'] = i
+        row['theme'] = c
+        row['sourceUrl'] = links[h]
+
+        row['articleLink'] = allLinks[c][i]           
+        row['summary'] = allP[c][i]           
+        row['date'] = allDates[c][i]       
+        row['title'] = allTitles[c][i]
+            
+        rows.append(row)
+        i = i + 1
+    h = h + 1
+
+print(rows)
+
+fieldnames = ['id', 'theme', 'sourceUrl', 'articleLink', 'summary', 'date', 'title']
+with open('file.csv', 'w', encoding='UTF8', newline='') as file:
+    writer = csv.DictWriter(f, fieldnames=fieldnames)
+    writer.writeheader()
+    writer.writerows(rows)
+
+    
+    
 
