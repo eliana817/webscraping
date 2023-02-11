@@ -100,11 +100,12 @@ if response1.ok :
 
 rows = []
 h = 0
+id = 0
 for c in linkContent:
-    i = 0
+    i = 0 #index for the allLinks[c] list
     for k in range (len(allLinks[c])):
         row = {}
-        row['id'] = i
+        row['id'] = id
         row['theme'] = c
         row['sourceUrl'] = links[h]
 
@@ -115,13 +116,14 @@ for c in linkContent:
             
         rows.append(row)
         i = i + 1
+        id = id + 1
     h = h + 1
 
 print(rows)
 
 fieldnames = ['id', 'theme', 'sourceUrl', 'articleLink', 'summary', 'date', 'title']
 with open('file.csv', 'w', encoding='UTF8', newline='') as file:
-    writer = csv.DictWriter(f, fieldnames=fieldnames)
+    writer = csv.DictWriter(file, fieldnames=fieldnames)
     writer.writeheader()
     writer.writerows(rows)
 
