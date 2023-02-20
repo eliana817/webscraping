@@ -14,7 +14,7 @@ for k in range(len(duplicated)):
 
 print("Number of articles with no summary: ",data['summary'].isnull().sum()) #counts number of lines with no summary
 
-mdata = data['summary'].fillna("No summary") #replace the empty data with No summary data
+mdata = data.fillna("No summary") #replace the empty data with No summary data
 
 mdata.to_csv('file.csv',index=False) #replace the original data with the new modified one: mdata
 
