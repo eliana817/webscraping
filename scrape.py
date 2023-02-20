@@ -27,7 +27,7 @@ def ecoProcess(soup, content, allLinks, allP, allDates, allTitles):
             a = h3.find('a')
             
             if len(a) == 2 :
-                articleTitle = a.contents[1]
+                articleTitle = a.contents[1] #or a.getText()
             elif len(a) == 1:
                 articleTitle = a.contents[0]
             else:
@@ -126,6 +126,11 @@ with open('file.csv', 'w', encoding='UTF8', newline='') as file:
     writer = csv.DictWriter(file, fieldnames=fieldnames)
     writer.writeheader()
     writer.writerows(rows)
+
+"""with open('file.csv', 'r', encoding='UTF8', newline='') as file:
+    reader = csv.DictReader(file)
+    for line in reader:"""
+
 
     
     
