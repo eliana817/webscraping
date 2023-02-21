@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+from economistEntry import economist
 
 baseUrl =  "https://www.economist.com"
 
@@ -126,6 +127,7 @@ with open('file.csv', 'w', encoding='UTF8', newline='') as file:
     writer = csv.DictWriter(file, fieldnames=fieldnames)
     writer.writeheader()
     writer.writerows(rows)
+
 
 """with open('file.csv', 'r', encoding='UTF8', newline='') as file:
     reader = csv.DictReader(file)
