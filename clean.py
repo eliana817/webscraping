@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import re
 import csv
+from economistEntry import economist
 
 data = pd.read_csv('file.csv')
 
@@ -40,9 +41,19 @@ data.to_csv('file.csv',index=False) #replace the original data with the new modi
 
 #print(mdata['summary'].isnull().sum()) check that there are no more empty summaries any more 
 
+#OR
+
+eco = economist('id', 'theme', 'sourceUrl', 'articleLink', 'summary', 'date', 'title')
+
+#eco.getEntry(data, 'summary', 'No summary') #check where in which lines 'No summary' appears in the 'summary column'
+
+#eco.setEntry(data, 'summary', 'No summary', 'test') #replace the 'No summary' text in the 'summary' column with 'test'
+
 ######################## Change the date column type ########################
 
 def changeDateType(data, column):
     data[column] = pd.to_datetime(data[column]) #change the date column type from object to date
 
 changeDateType(data, 'date')
+
+
