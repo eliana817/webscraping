@@ -22,5 +22,34 @@ class economist:
         rows.append(row)
         return rows
 
-#get + set
+    def getEntry(self, list, column, value): #takes a list of dictionnaries as an argument and prints the lines 
+        nbr = 0                              #where 'value' appears in the specified 'column' with the number of times it appears / can also change directly in a csv file
+        try: #if list is indeed a list                             
+            for k in range(len(list)):           
+                if list[k][column] == value:
+                    print(list[k])
+                    nbr = nbr + 1
+        except: #if list is data read from csv file
+            for k in range(len(list.index)):           
+                if list[column].iloc[k] == value:
+                    print(list.loc[[k],:])
+                    nbr = nbr + 1
+        print("'",value, "' appears", nbr, "times in the '", column, "' column")
+        return
+
+    def setEntry(self, list, column, old, new): #takes a list of dictionnaries and replaces the 'old' value where it exists in the specified
+        nbr = 0                                 #column with the 'new' value / can also change directly in a csv file     
+        try: #if list is indeed a list                 
+            for k in range(len(list)):           
+                if list[k][column] == old:
+                    nbr = nbr + 1
+                    list[k][column] = new
+        except: #if list is data read from csv file
+            for k in range(len(list.index)):           
+                if list[column].iloc[k] == old:
+                    nbr = nbr + 1
+                    list[column][k] = new
+                    list.to_csv('file.csv',index=False)
+        print(nbr, "row has/have successfully been updated")
+        return
 
