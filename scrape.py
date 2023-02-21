@@ -99,12 +99,15 @@ if response1.ok :
             allLinks, allP, allDates, allTitles = ecoProcess(soup2, content, allLinks, allP, allDates, allTitles)
             
 
+eco = economist('id', 'theme', 'sourceUrl', 'articleLink', 'summary', 'date', 'title')
 rows = []
 h = 0
 id = 0
 for c in linkContent:
     i = 0 #index for the allLinks[c] list
     for k in range (len(allLinks[c])):
+        rows = eco.dictEntry(rows, id, c, links, h, allLinks, i, allP, allDates, allTitles)
+        """
         row = {}
         row['id'] = id
         row['theme'] = c
@@ -115,7 +118,7 @@ for c in linkContent:
         row['date'] = allDates[c][i]       
         row['title'] = allTitles[c][i]
             
-        rows.append(row)
+        rows.append(row)"""
         i = i + 1
         id = id + 1
     h = h + 1
@@ -128,10 +131,6 @@ with open('file.csv', 'w', encoding='UTF8', newline='') as file:
     writer.writeheader()
     writer.writerows(rows)
 
-
-"""with open('file.csv', 'r', encoding='UTF8', newline='') as file:
-    reader = csv.DictReader(file)
-    for line in reader:"""
 
 
     
