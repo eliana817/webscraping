@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import re
+import csv
 
 data = pd.read_csv('file.csv')
 
@@ -8,14 +9,17 @@ data = pd.read_csv('file.csv')
 
 duplicated = data.duplicated()
 
-for k in range(len(duplicated)):
-   if duplicated[k] == True:
-    print(data['id'][k], " / ", data['theme'][k], " / ", data['title'][k]) #prints part of the content of the duplicated line
+def dupl(duplicated, data, file):
+    for k in range(len(duplicated)):
+        if duplicated[k] == True:
+            print(data.loc[[k],:]) #prints the duplicated line
 
-data.drop_duplicates(subset=None, inplace=True) #subset = None means that we take into account every column when checking for duplicates
-                                                #and not specific ones. inplace = True means that we remove the duplicate lines if there are any
+    data.drop_duplicates(subset=None, inplace=True) #subset = None means that we take into account every column when checking for duplicates
+                                                    #and not specific ones. inplace = True means that we remove the duplicate lines if there are any
 
-data.to_csv('file.csv', index=False) #apply the changes to the main file
+    data.to_csv(file, index=False) #apply the changes to the main file
+
+dupl(duplicated, data, 'file.csv')
 
 ######################## Make sure that the dates are in the correct format #######################
 
@@ -38,4 +42,7 @@ data.to_csv('file.csv',index=False) #replace the original data with the new modi
 
 ######################## Change the date column type ########################
 
-data['date'] = pd.to_datetime(data['date']) #change the date column type from object to date
+def changeDateType(data, column):
+    data[column] = pd.to_datetime(data[column]) #change the date column type from object to date
+
+changeDateType(data, 'date')
