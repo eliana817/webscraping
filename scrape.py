@@ -1,19 +1,34 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
-from economistEntry import economist
+
+from EconomistEntry import EconomistEntry
+from Economist import Economist
+from Toolkit import Toolkit
+from ToScrape import ToScrape
+
+from clean import *
+import pandas as pd
+import numpy as np
+import re
 
 baseUrl =  "https://www.economist.com"
 
-response1 = requests.get(baseUrl)
+fieldnames = ['id', 'theme', 'sourceUrl', 'articleLink', 'summary', 'date', 'title']
 
+economist = Economist(baseUrl, fieldnames)
+toScrape = ToScrape(economist, 'file.csv')
+toScrape.exec()
+
+#response1 = requests.get(baseUrl)
+"""
 allLinks = {}
 allP = {}
 allDates = {}
-allTitles = {}
+allTitles = {}"""
 
 #Scrape the data (title, link and small description of the articles from the economist concerning the US midterm politics)
-
+"""
 def ecoProcess(soup, content, allLinks, allP, allDates, allTitles):
     allLinks[content] = []
     allP[content] = []
@@ -82,12 +97,12 @@ def ecoLinks(soup):
             links.append(uri)
             span = a.find('span')
             linkContent.append(span.contents[0])
-    return links, linkContent #links of the navbar
+    return links, linkContent #links of the navbar"""
             
-
+"""
 if response1.ok :
     soup = BeautifulSoup(response1.text,'html.parser')
-    links, linkContent = ecoLinks(soup)
+    links, linkContent = Economist.ecoLinks(soup)
     for link in links:
         contentIndex = links.index(link)
         content = linkContent[contentIndex]
@@ -96,10 +111,10 @@ if response1.ok :
         response2 = requests.get(baseUrl + link)
         if response2.ok :
             soup2 = BeautifulSoup(response2.text,'html.parser')
-            allLinks, allP, allDates, allTitles = ecoProcess(soup2, content, allLinks, allP, allDates, allTitles)
+            allLinks, allP, allDates, allTitles = Economist.ecoProcess(soup2, content, allLinks, allP, allDates, allTitles)
             
 
-eco = economist('id', 'theme', 'sourceUrl', 'articleLink', 'summary', 'date', 'title')
+eco = EconomistEntry('id', 'theme', 'sourceUrl', 'articleLink', 'summary', 'date', 'title')
 rows = []
 h = 0
 id = 0
@@ -107,7 +122,7 @@ for c in linkContent:
     i = 0 #index for the allLinks[c] list
     for k in range (len(allLinks[c])):
         rows = eco.dictEntry(rows, id, c, links, h, allLinks, i, allP, allDates, allTitles)
-        """
+        
         row = {}
         row['id'] = id
         row['theme'] = c
@@ -118,7 +133,7 @@ for c in linkContent:
         row['date'] = allDates[c][i]       
         row['title'] = allTitles[c][i]
             
-        rows.append(row)"""
+        rows.append(row)
         i = i + 1
         id = id + 1
     h = h + 1
@@ -126,10 +141,12 @@ for c in linkContent:
 print(rows)
 
 fieldnames = ['id', 'theme', 'sourceUrl', 'articleLink', 'summary', 'date', 'title']
+
 with open('file.csv', 'w', encoding='UTF8', newline='') as file:
     writer = csv.DictWriter(file, fieldnames=fieldnames)
     writer.writeheader()
-    writer.writerows(rows)
+    writer.writerows(rows)"""
+
 
 
 

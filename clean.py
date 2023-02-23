@@ -2,13 +2,13 @@ import pandas as pd
 import numpy as np
 import re
 import csv
-from economistEntry import economist
+from EconomistEntry import EconomistEntry
 
-data = pd.read_csv('file.csv')
+#data = pd.read_csv('file.csv')
 
 ###################### Check and delete duplicated lines ######################## 
 
-duplicated = data.duplicated()
+#duplicated = data.duplicated()
 
 def dupl(duplicated, data, file):
     for k in range(len(duplicated)):
@@ -20,7 +20,9 @@ def dupl(duplicated, data, file):
 
     data.to_csv(file, index=False) #apply the changes to the main file
 
-dupl(duplicated, data, 'file.csv')
+    return 
+
+#dupl(duplicated, data, 'file.csv')
 
 ######################## Make sure that the dates are in the correct format #######################
 
@@ -28,11 +30,11 @@ dupl(duplicated, data, 'file.csv')
 
 ######################## Check for empty data and replace it with another value ######################
 
-print("Number of articles with no summary: ",data['summary'].isnull().sum()) #counts number of lines with no summary
+"""print("Number of articles with no summary: ",data['summary'].isnull().sum()) #counts number of lines with no summary
 
 data['summary'] = data['summary'].fillna("No summary") #replace the empty data with No summary data
 
-data.to_csv('file.csv',index=False) #replace the original data with the new modified one: mdata
+data.to_csv('file.csv',index=False) #replace the original data with the new modified one: mdata"""
 
 #OR 
 
@@ -43,7 +45,7 @@ data.to_csv('file.csv',index=False) #replace the original data with the new modi
 
 #OR
 
-eco = economist('id', 'theme', 'sourceUrl', 'articleLink', 'summary', 'date', 'title')
+#eco = EconomistEntry('id', 'theme', 'sourceUrl', 'articleLink', 'summary', 'date', 'title')
 
 #eco.getEntry(data, 'summary', 'No summary') #check where in which lines 'No summary' appears in the 'summary column'
 
@@ -53,7 +55,8 @@ eco = economist('id', 'theme', 'sourceUrl', 'articleLink', 'summary', 'date', 't
 
 def changeDateType(data, column):
     data[column] = pd.to_datetime(data[column]) #change the date column type from object to date
+    return 
 
-changeDateType(data, 'date')
+#changeDateType(data, 'date')
 
 
