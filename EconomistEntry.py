@@ -1,4 +1,4 @@
-class economist:
+class Economist:
     def __init__(self, id, theme, sourceUrl, articleLink, summary, date, title):
         self.id = id
         self.theme = theme
@@ -35,7 +35,7 @@ class economist:
                     print(list.loc[[k],:])
                     nbr = nbr + 1
         print("'",value, "' appears", nbr, "times in the '", column, "' column")
-        return
+        return nbr
 
     def setEntry(self, list, column, old, new): #takes a list of dictionnaries and replaces the 'old' value where it exists in the specified
         nbr = 0                                 #column with the 'new' value / can also change directly in a csv file     
