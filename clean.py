@@ -4,7 +4,7 @@ import re
 import csv
 from EconomistEntry import EconomistEntry
 
-#data = pd.read_csv('file.csv')
+data = pd.read_csv('file.csv')
 
 ###################### Check and delete duplicated lines ######################## 
 
@@ -30,11 +30,11 @@ def dupl(duplicated, data, file):
 
 ######################## Check for empty data and replace it with another value ######################
 
-"""print("Number of articles with no summary: ",data['summary'].isnull().sum()) #counts number of lines with no summary
+print("Number of articles with no summary: ",data['summary'].isnull().sum()) #counts number of lines with no summary
 
 data['summary'] = data['summary'].fillna("No summary") #replace the empty data with No summary data
 
-data.to_csv('file.csv',index=False) #replace the original data with the new modified one: mdata"""
+data.to_csv('file.csv',index=False) #replace the original data with the new modified one: mdata
 
 #OR 
 
