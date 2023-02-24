@@ -59,11 +59,6 @@ class ToScrape:
         
         changeDateType(data, 'date')
 
-        nbr = eco.getEntry(data, 'summary', '') #check where in which lines '' appears in the 'summary column', meaning there is no summary
-                                                #could check for empty strings in every column as well using a for column in self.instance.fieldnames loop
-        if nbr > 0: #if there is no summary then replace the empty string with something else
-            eco.setEntry(data, 'summary', '', 'No summary') #replace the '' text in the 'summary' column with 'No summary'
-
         return self
     
     def exec(self):
